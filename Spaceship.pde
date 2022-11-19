@@ -1,5 +1,6 @@
 class Spaceship extends Floater  
 {   
+private int iFrames;
 private int hyperBuffer;
   double speedCap = 2;
   public double getX(){
@@ -13,6 +14,7 @@ private int hyperBuffer;
   }
   public Spaceship()
   {  
+    iFrames = 0;
     hyperBuffer = 0;
     corners = 3;
     myColor = 111;
