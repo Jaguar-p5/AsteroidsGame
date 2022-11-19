@@ -137,7 +137,7 @@ class Bullet extends Floater{
 class EnemyPellet extends Bullet{
   EnemyPellet(Spaceship source){
    super(source);
-   lifeSpan = 1111111;
+   lifeSpan = 2222;
    doesWarp = true;
    this.accelerate(6);
    this.move();
@@ -146,7 +146,7 @@ class EnemyPellet extends Bullet{
   }
   EnemyPellet(Gun theGun){
     super(theGun);
-    lifeSpan = 200;
+    lifeSpan = 27700;
     doesWarp = true;
    this.accelerate(6);
    this.move();
