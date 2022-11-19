@@ -34,3 +34,16 @@ public void draw()
 
 }
 
+
+
+boolean[] keys = new boolean[222]; // 222 is the highest keyCode value i know
+
+public void keyPressed(KeyEvent e) { keys[e.getKeyCode()] = true;}
+public void keyReleased(KeyEvent e) { keys[e.getKeyCode()] = false; }
+
+// True is pressed, False is released
+public boolean getState(int keyCode) {
+  return keys[keyCode];
+}
+
+
