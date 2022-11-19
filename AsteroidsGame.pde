@@ -3,6 +3,7 @@ Spaceship bob = new Spaceship();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 public void setup() 
 {
+frameRate(100);
 size(800, 800);
   for(int i = 0; i < 100; i ++){
     stars.add(new Star(Math.random()*width, Math.random()* height));
