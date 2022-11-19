@@ -40,6 +40,7 @@ private int hyperBuffer;
     myCenterX = Math.random()*width;
     myCenterY = Math.random()*height;
     myPointDirection = 360 * Math.random();
+    iFrames = 100;
     
     
     
