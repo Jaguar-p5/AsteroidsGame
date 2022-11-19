@@ -73,7 +73,7 @@ class Bullet extends Floater{
     bullets.remove(this);
   lifeTimer += 1; 
   if( abs((float)(player.getX() - myCenterX)) <= 10 && abs((float)(player.getY() - myCenterY)) <= 10)
-    noLoop();
+    player.kill();
    
    
  }
