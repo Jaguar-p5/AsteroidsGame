@@ -42,7 +42,8 @@ public void keyReleased() {keys[keyCode] = false;}
 
 // True is pressed, False is released
 public boolean getState(int keyCode) {
-  true;
+  
+  return keys[keyCode];
 }
 
 
