@@ -44,7 +44,14 @@ private int hyperBuffer;
     
     
   }
+  public void kill(){
+  if(iFrames == 0)
+  noLoop();
+  }
   public void show(){
+    if(iFrames > 0)
+     iFrames--;
+   
     fill(myColor);   
     stroke(myColor);    
     
