@@ -4,6 +4,7 @@ Monster sue = new Monster();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 public void setup() 
 {
+size(800, 800);
   for(int i = 0; i < 100; i ++){
     stars.add(new Star(Math.random()*width, Math.random()* height));
   
