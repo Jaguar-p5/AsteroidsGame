@@ -1,6 +1,5 @@
 ArrayList <Star> stars = new ArrayList <Star>();
 Spaceship bob = new Spaceship();
-Monster sue = new Monster();
 ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 public void setup() 
 {
