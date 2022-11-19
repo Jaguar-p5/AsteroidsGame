@@ -70,7 +70,7 @@ private int hyperBuffer;
  }
   public void readTurning()
   {
-
+    if(getState(65))
       turn(-4);
     if(getState(68))
       turn(4);
