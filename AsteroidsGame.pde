@@ -22,7 +22,7 @@ ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 void setup(){
   frameRate(60);
   size(500, 500);
-  for(int i = 0; i < 4 /*numAsteroids*/; i++){
+  for(int i = 0; i < 6 /*numAsteroids*/; i++){
    asteroids.add(new Asteroid(Math.random()*width, Math.random()*height, (float)Math.random()*PI*2, 2)); 
     
   }
