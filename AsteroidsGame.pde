@@ -27,7 +27,7 @@ void setup(){
     
   }
   for(int i = 0; i < 100; i++){
-  stars.add(new Star());
+  stars.add(new Star(Math.random()*width, Math.random*height);
   }
   
 }
