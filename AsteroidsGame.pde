@@ -48,10 +48,11 @@ void draw(){
     asteroids.get(i).turning();
     asteroids.get(i).show();
     if(colideCheck(asteroids.get(i), tim)){
-    noLoop();
-  for(int i = 0; i < 
-  }
-    
+    asteroids.remove(i);
+    i--;
+    }
+  for(int i = 0; i < 100; i++){
+  stars.get(i).show();
   }
 
   
