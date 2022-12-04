@@ -50,11 +50,11 @@ void draw(){
     if(colideCheck(asteroids.get(i), tim)){
     asteroids.remove(i);
     i--;
-    }
+    }}
   for(int i = 0; i < 100; i++){
   stars.get(i).show();
   }
-  }
+
   
 }
 
