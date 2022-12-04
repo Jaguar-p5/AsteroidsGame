@@ -40,10 +40,11 @@ void setup(){
 
 void draw(){
 
-    for(int i = 0; i < 100; i++){
+
+  background(0);
+  for(int i = 0; i < 100; i++){
   stars.get(i).show();
   }
-  background(0);
   tim.readHyperspace();
   tim.readTurning();
   tim.readAcceleration();
@@ -66,7 +67,23 @@ void draw(){
 
 
 
-// What follows is the code i used for collison handling
+// What follows is the code i used for collison handling, and a brief explanation
+
+
+/*Basic idea for my collision detection was from the SAT (seperating axis theorem)
+Two convex objects do not overlap if there exists a line (called axis) onto which the two objects' projections do not overlap.
+The naive way to use this theorem would be to check every line, but it turns out the only lines you need to check are lines parralel to the edges of the shape.
+
+So, for each pair of potentially colliding objects I would:
+make a list of vectors that represeneted edges of the two shapes
+for each "axis" i would check if they overlap across that axis.
+  I did this by projecting the vectors from the center of each shape to each of its vertices onto the axis, and finding the scalar product
+   I would then find the minimum and maximum scalar product for each shape, and use basic logic to see if they overlap
+   
+Not actually that much code, but it took a lot of time to do, and I would not reccomend it. 
+
+*/
+
 class Vector{
  private float x, y;
  Vector(double x_, double y_){
