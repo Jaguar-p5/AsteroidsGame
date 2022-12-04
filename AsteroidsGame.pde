@@ -1,3 +1,8 @@
+// Collsion reqs:
+// // asteroid checks bullets. 
+// need center, map(where are vertices at 0 rotation), and rotation
+// ----> get vectors from center to vertices, use for projection
+// circle min/max should just be + or - raidus
 ArrayList <Star> stars = new ArrayList <Star>();
 Spaceship tim = new Spaceship();
 
@@ -12,7 +17,7 @@ public boolean getState(int keyCode) {
   return keys[keyCode];
 }
 
-Spaceship tim = new Spaceship();
+
 
 ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 
@@ -22,12 +27,12 @@ ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 void setup(){
   frameRate(60);
   size(500, 500);
-  for(int i = 0; i < 6 /*numAsteroids*/; i++){
+  for(int i = 0; i < 16 /*numAsteroids*/; i++){
    asteroids.add(new Asteroid(Math.random()*width, Math.random()*height, (float)Math.random()*PI*2, 2)); 
     
   }
   for(int i = 0; i < 100; i++){
-  stars.add(new Star(Math.random()*width, Math.random*height));
+  stars.add(new Star(Math.random()*width, Math.random()*height));
   }
   
 }
@@ -35,7 +40,9 @@ void setup(){
 
 void draw(){
 
-
+    for(int i = 0; i < 100; i++){
+  stars.get(i).show();
+  }
   background(0);
   tim.readHyperspace();
   tim.readTurning();
@@ -50,15 +57,12 @@ void draw(){
     if(colideCheck(asteroids.get(i), tim)){
     asteroids.remove(i);
     i--;
+    asteroids.add(new Asteroid(Math.random()*width, Math.random()*height, (float)Math.random()*PI*2, 2));
     }}
-  for(int i = 0; i < 100; i++){
-  stars.get(i).show();
-  }
+
 
   
 }
-
-
 
 
 
