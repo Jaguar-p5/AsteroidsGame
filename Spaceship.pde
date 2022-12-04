@@ -1,20 +1,11 @@
-class Spaceship extends Floater  
-{   
-private int iFrames;
-private int hyperBuffer;
+
+class Spaceship extends Floater
+{
+  private int hyperBuffer;
   double speedCap = 2;
-  public double getX(){
-    return myCenterX;
-  }
-  public double getY(){
-    return myCenterY;
-  }
-  public double getPoint(){
-    return myPointDirection;
-  }
+
   public Spaceship()
   {  
-    iFrames = 0;
     hyperBuffer = 0;
     corners = 3;
     myColor = 111;
@@ -40,19 +31,11 @@ private int hyperBuffer;
     myCenterX = Math.random()*width;
     myCenterY = Math.random()*height;
     myPointDirection = 360 * Math.random();
-    iFrames = 100;
     
     
     
-  }
-  public void kill(){
-  if(iFrames == 0)
-  noLoop();
   }
   public void show(){
-    if(iFrames > 0)
-     iFrames--;
-   
     fill(myColor);   
     stroke(myColor);    
     
