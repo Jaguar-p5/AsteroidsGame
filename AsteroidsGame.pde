@@ -54,7 +54,7 @@ void draw(){
   for(int i = 0; i < 100; i++){
   stars.get(i).show();
   }
-
+  }
   
 }
 
