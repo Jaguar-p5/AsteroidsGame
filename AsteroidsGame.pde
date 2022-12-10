@@ -1,3 +1,4 @@
+// School asteroids
 // Collsion reqs:
 // // asteroid checks bullets. 
 // need center, map(where are vertices at 0 rotation), and rotation
@@ -5,8 +6,8 @@
 // circle min/max should just be + or - raidus
 ArrayList <Star> stars = new ArrayList <Star>();
 Spaceship tim = new Spaceship();
-
-
+ArrayList <Bullet> bullets = new ArrayList <Bullet>();
+int score;
 boolean[] keys = new boolean[222]; // 222 is the highest keyCode value i know
 
 public void keyPressed(){keys[keyCode] = true;}
@@ -22,13 +23,26 @@ public boolean getState(int keyCode) {
 ArrayList <Asteroid> asteroids = new ArrayList <Asteroid>();
 
 
+int numAsteroids(){
+ return 6 + score/10;
+  
+}
 
+float asteroidSpeed(){
+ return 1 + score/30.0; 
+  
+}
 
 void setup(){
+  frameRate(10);
+  PFont mono;
+  mono = createFont("RobotoMono-Bold.ttf", 45);
+  textFont(mono);
   frameRate(60);
   size(500, 500);
-  for(int i = 0; i < 16 /*numAsteroids*/; i++){
-   asteroids.add(new Asteroid(Math.random()*width, Math.random()*height, (float)Math.random()*PI*2, 2)); 
+  score = 0;
+  for(int i = 0; i < numAsteroids() /*numAsteroids*/; i++){
+   asteroids.add(new Asteroid(Math.random()*width, Math.random()*height, (float)Math.random()*PI*2, asteroidSpeed(), 1)); 
     
   }
   for(int i = 0; i < 100; i++){
@@ -36,11 +50,19 @@ void setup(){
   }
   
 }
-
+boolean isLost = false;
 
 void draw(){
 
+  if(asteroids.size() == 0){
+  tim.setIframes(120);
+     for(int i = 0; i < 8 /*numAsteroids*/; i++){
+   asteroids.add(new Asteroid(Math.random()*width, Math.random()*height, (float)Math.random()*PI*2, asteroidSpeed(), 1)); 
+    
+  }
 
+    
+  }
   background(0);
   for(int i = 0; i < 100; i++){
   stars.get(i).show();
@@ -50,22 +72,57 @@ void draw(){
   tim.readAcceleration();
   tim.move();
   tim.show();
+  tim.readChangeWeapon();
+  tim.readShoot();
+  
+  tim.inc(); // INCrements status eg. iFrames, maybe powerups
+
   for(int i = 0; i < asteroids.size(); i++){
     
     asteroids.get(i).move();
     asteroids.get(i).turning();
     asteroids.get(i).show();
-    if(colideCheck(asteroids.get(i), tim)){
-    asteroids.remove(i);
-    i--;
-    asteroids.add(new Asteroid(Math.random()*width, Math.random()*height, (float)Math.random()*PI*2, 2));
+    if(colideCheck(asteroids.get(i), tim)&& tim.isVuln()){
+    isLost = true;
+    
     }}
+    
+   for(int i = 0; i < bullets.size(); i++){
+   bullets.get(i).move();
+   bullets.get(i).show();
+   for(int j = 0; j < asteroids.size(); j++){
+    if( circlePollyCollideCheck(bullets.get(i), asteroids.get(j)) ){
+      score++;
+      
+      
+      if(asteroids.get(j).getSize() == 1){
+      asteroids.add(new Asteroid(asteroids.get(j).getX() + Math.random()*10 - 5, asteroids.get(j).getY() + Math.random()*10 - 5 ,(float)Math.random()*PI*2, 2*asteroidSpeed(), 0.5));   
+      asteroids.remove(j);
+      j--;
+      }
+      else{
+      asteroids.remove(j);
+      j--;
+      }
+    }
+   }
+   bullets.get(i).checkExpire();
+    
+  }
 
-
-  
+  drawOverlay();
+  if(isLost){
+    
+    fill(255);
+    text("You Lost", width/2 -100, height/2);
+    noLoop();
+  }
 }
 
-
+void drawOverlay(){
+  fill(255);
+  text(score, 10, 40);
+} 
 
 // What follows is the code i used for collison handling, and a brief explanation
 
@@ -73,7 +130,6 @@ void draw(){
 /*Basic idea for my collision detection was from the SAT (seperating axis theorem)
 Two convex objects do not overlap if there exists a line (called axis) onto which the two objects' projections do not overlap.
 The naive way to use this theorem would be to check every line, but it turns out the only lines you need to check are lines parralel to the edges of the shape.
-
 So, for each pair of potentially colliding objects I would:
 make a list of vectors that represeneted edges of the two shapes
 for each "axis" i would check if they overlap across that axis.
@@ -81,7 +137,6 @@ for each "axis" i would check if they overlap across that axis.
    I would then find the minimum and maximum scalar product for each shape, and use basic logic to see if they overlap
    
 Not actually that much code, but it took a lot of time to do, and I would not reccomend it. 
-
 */
 
 class Vector{
@@ -159,7 +214,7 @@ boolean checkAxis(VectorCollection floater1, VectorCollection floater2, Vector t
   min2 += dist;
   max2 += dist;
 
-  return((min2 < min1 && max2 > max1 )|| min2 < max1 && max2 > min1);
+  return((max1 > min2 && max1 < max2) || (min1 > min2 && min1 < max2) || (max2 > min1 && max2<max1) ||(min2 > min1 && min2 < max1) );
 }
 
 
@@ -232,6 +287,32 @@ public Vector rotateVertex(Floater q, int vertexNum, double theta){
 
 
 
+boolean checkCirclePolyAxis(VectorCollection floater1, VectorCollection floater2, Vector testAxis){
+  float max1 = 0.5*9;
 
+  float max2 = maxMinProject(floater2, testAxis)[0];
+  float min1 = -0.5*9;
+  float min2 = maxMinProject(floater2, testAxis)[1];
+  Vector centerDeltaVector = VectorAtoB(floater2.center, floater1.center); // name is misleading, should re write
+  float dist = (projectAonB(centerDeltaVector, testAxis));
+  min2 += dist;
+  max2 += dist;
+    return((max1 > min2 && max1 < max2) || (min1 > min2 && min1 < max2) || (max2 > min1 && max2<max1) ||(min2 > min1 && min2 < max1) );
+}
+boolean circlePollyCollideCheck(Bullet a, Floater b){
+VectorCollection aCollection = new VectorCollection(a);
+VectorCollection bCollection = new VectorCollection(b);
+Vector[] axisArray = new Vector[b.getCorners()];
 
+for(int i = 0; i < bCollection.getSize(); i++){
+    axisArray[i] = bCollection.getAxiis()[i];
 
+}
+
+for(int i = 0; i < axisArray.length; i++){
+ if(!checkCirclePolyAxis(aCollection, bCollection, axisArray[i])) 
+     return false;
+     
+}
+return true;
+}
