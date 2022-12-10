@@ -1,6 +1,7 @@
 class Asteroid extends Floater{
-
-  public Asteroid(double xPos, double yPos, float theta, double speedMag){
+  protected double mySize;
+  public Asteroid(double xPos, double yPos, float theta, double speedMag, double scalar){
+    mySize = scalar;
     corners = 4;
     myColor = 111;
     myCenterX = xPos;
@@ -9,16 +10,17 @@ class Asteroid extends Floater{
     myYspeed = speedMag*sin(theta);
     myPointDirection = 0;
     xCorners = new int[4];
-    xCorners[0] = -35;
-    xCorners[1] = 35;
-    xCorners[2] =  35;
-    xCorners[3] = -35;
+    xCorners[0] = (int)(-35*scalar);
+    xCorners[1] = (int)(35*scalar);
+    xCorners[2] =  (int)(35*scalar);
+    xCorners[3] = (int)(-35*scalar);
     yCorners = new int[4];
-    yCorners[0] = 35;
-    yCorners[1] = 35;
-    yCorners[2] = -35;
-    yCorners[3] = -35;
+    yCorners[0] = (int)(35*scalar);
+    yCorners[1] = (int)(35*scalar);
+    yCorners[2] = (int)(-35*scalar);
+    yCorners[3] = (int)(-35*scalar);
  }
+  public double getSize(){return mySize;}
   public void turning(){
    turn(1);
     
